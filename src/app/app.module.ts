@@ -9,6 +9,9 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { AgmCoreModule } from '@agm/core';
+import { Contacts } from '@ionic-native/contacts';
+
 
 import { MyApp } from './app.component';
 import { HistorialProvider } from '../providers/historial/historial';
@@ -24,6 +27,9 @@ import { HistorialProvider } from '../providers/historial/historial';
   ],
   imports: [
     BrowserModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCaVTENC9fM36SAVvTWoPph7y8ZQzyHDXM'
+    }),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -34,11 +40,15 @@ import { HistorialProvider } from '../providers/historial/historial';
     GuardadosPage,
     MapaPage
   ],
+  schemas:  [ 
+   
+  ],
   providers: [
     StatusBar,
     SplashScreen,
     BarcodeScanner,
     InAppBrowser,
+    Contacts,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HistorialProvider
   ]

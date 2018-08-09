@@ -19,7 +19,8 @@ export class HomePage {
     console.log("Realizando scan");
   
     if(!this.platform.is('cordova')){
-      this.historialProvider.add_record("http://google.es");
+      //this.historialProvider.add_record("http://google.es");
+      //this.historialProvider.add_record("geo:40.2103049,-3.57873840000002");
       return;
     }
 
@@ -28,7 +29,7 @@ export class HomePage {
 
       console.log( 'Datos del scan', barcodeData.text );
 
-      if( barcodeData.cancelled && barcodeData.text != null )
+      if( !barcodeData.cancelled && barcodeData.text != null )
         this.historialProvider.add_record( barcodeData.text );
 
     })
