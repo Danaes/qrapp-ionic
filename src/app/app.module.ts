@@ -1,3 +1,4 @@
+import { Contacts } from '@ionic-native/contacts';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { MapaPage } from './../pages/mapa/mapa';
@@ -10,8 +11,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AgmCoreModule } from '@agm/core';
-import { Contacts } from '@ionic-native/contacts';
-
+import { EmailComposer } from '@ionic-native/email-composer';
 
 import { MyApp } from './app.component';
 import { HistorialProvider } from '../providers/historial/historial';
@@ -49,6 +49,7 @@ import { HistorialProvider } from '../providers/historial/historial';
     BarcodeScanner,
     InAppBrowser,
     Contacts,
+    EmailComposer,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HistorialProvider
   ]

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { ScanData } from './../../models/scan-data.model';
 import { ModalController, Platform, ToastController } from 'ionic-angular';
 import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
+import { EmailComposer } from '@ionic-native/email-composer';
 
 @Injectable()
 export class HistorialProvider {
@@ -14,7 +15,8 @@ export class HistorialProvider {
               private modalCtrl: ModalController,
               private contacts: Contacts, 
               private platform: Platform,
-              private toastCtrl: ToastController) { }
+              private toastCtrl: ToastController,
+              private emailComposer: EmailComposer) { }
 
   load_record(){ return this._historial; }
 
@@ -22,6 +24,8 @@ export class HistorialProvider {
     let data = new ScanData( text );
 
     this._historial.unshift(data);
+
+    //console.log(data);
 
     this.openScan( 0 );
   }
@@ -45,6 +49,10 @@ export class HistorialProvider {
         this.addContact( scanData.info );
         break;
 
+      case "email":
+        this.sendMail( scanData.info );
+        break;
+
       default: console.error("Tipo no soportado");
     }
 
@@ -63,15 +71,15 @@ export class HistorialProvider {
       return;
     }
 
-    console.warn(name, tel);
+    //console.warn(name, tel);
 
     let contact: Contact = this.contacts.create();
-    contact.name = new ContactName(null, name);
+    contact.name = new ContactName('', name);
     contact.phoneNumbers = [new ContactField('mobile', tel)];
 
     contact.save().then( 
       () => this.showToast("Contacto " + name + " añadido"),
-      ( err: any ) => console.log("Error: " + err));
+      ( err: any ) => console.error("Error: " + err));
   }
 
   private showToast( msg: string){
@@ -123,6 +131,26 @@ export class HistorialProvider {
     });
 
     return fields;
-};
+  };
+
+  private sendMail( text: string ){
+
+    text = text.replace("MATMSG:TO:","");
+    text = text.replace(";SUB:",",");
+    text = text.replace(";BODY:",",");
+
+    let mail = text.split(',');
+
+    //console.log(mail[0],mail[1],mail[2]);
+
+    let email = {
+      to: mail[0],
+      subject: mail[1],
+      body: mail[2],
+      isHtml: true
+    };
+    
+    this.emailComposer.open(email);
+  }
 
 }
